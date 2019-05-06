@@ -9,7 +9,9 @@ class DataBase(object):
     async def connect(cls):
         self = DataBase()
         self.pool = await asyncpg.create_pool(config.DB_URL)
+        await self.create_db()
         return self
+        
 
     def conn(func):
         async def decor(self, *args, **kwargs):
@@ -19,6 +21,19 @@ class DataBase(object):
 
         return decor
 
+
+    @conn
+    async def create_db(self, conn):
+        print('Create table users...', end ='')
+        await conn.execute('''
+            CREATE TABLE IF NOT EXISTS users(
+                id INT PRIMARY KEY,
+                msg_id INT,
+                date_join TIMESTAMP DEFAULT NOW()
+            );
+        ''')
+        print('OK')
+        
     
     @conn
     async def create_user(self, conn, user_id):
@@ -43,17 +58,6 @@ class DataBase(object):
         return await conn.fetchrow(
             f'UPDATE users SET {key} = {value} WHERE id = {user_id};'
         )
-
-    # и т.д.
-
-
-
-
-# async def a():
-#     db = await DataBase.connect()
-
-#     print(await db.get_user(user_id = 755484))
-#     # print(await db.set_user_param(user_id = id_here, key = 'key', value = 'value'))
 
 
 loop = asyncio.get_event_loop()
