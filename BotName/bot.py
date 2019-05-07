@@ -54,15 +54,34 @@ async def start_command(msg):
         await view.main_menu(msg)
     
     else:
+        # TODO: check referal here
         await db.create_user(user_id = msg.from_user)
         await view.welcome(msg)
 
 
-    
+@dp.message_handler()
+async def text_hundler(msg):
+    await view.main_menu(msg)
 
 
+@dp.inline_handler()
+async def inline_echo(inline_query):
+    input_content = types.InputTextMessageContent(inline_query.query or 'echo')
+
+    item = types.InlineQueryResultArticle(id='1', title='echo',
+                                          input_message_content=input_content)
+
+    await bot.answer_inline_query(inline_query.id, results=[item], cache_time=1)
+
+
+
+@dp.errors_handler()
+async def error_hundler(msg):
+    print(msg)
+    # await bot.send_message('channel_info',str(msg))
 
  
+
 executor.start_polling(dp, loop=loop, skip_updates=False)
 
 
