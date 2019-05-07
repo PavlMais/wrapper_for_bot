@@ -76,8 +76,9 @@ async def inline_echo(inline_query):
 
 
 @dp.errors_handler()
-async def error_hundler(msg):
+async def error_hundler(msg, data):
     print(msg)
+    print(data)
     # await bot.send_message('channel_info',str(msg))
 
  
