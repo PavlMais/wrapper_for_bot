@@ -1,7 +1,7 @@
 from aiogram.types import  InlineKeyboardMarkup as Markup
 from aiogram.types import  InlineKeyboardButton as Button
 
-from aiogram.utils.exceptions import MessageToEditNotFound
+from aiogram.utils.exceptions import MessageToEditNotFound, MessageCantBeEdited
 from msgids import msgids
 
 from data_base import db
