@@ -2,15 +2,13 @@ from aiogram.types import  InlineKeyboardMarkup as Markup
 from aiogram.types import  InlineKeyboardButton as Button
 
 from aiogram.utils.exceptions import MessageToEditNotFound, MessageCantBeEdited
-from msgids import msgids
+from .msgids import msgids
 
-from data_base import db
-import config
+from .data_base import db
+from . import config
+from main import bot
 
 class View(object):
-
-    def __init__(self, bot):
-        self.bot = bot
 
     def edit(func):
         async def decor(self, msg, *args, **kwargs):
@@ -52,3 +50,7 @@ class View(object):
             Button('OK', callback_data='open main_menu')
         )
         return 'Welcome menu', btn
+    
+    
+    
+view = View()
