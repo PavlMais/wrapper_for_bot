@@ -1,5 +1,5 @@
-from data_base import db
-import config
+from .data_base import db
+import .config
 
 class MsgIDS(object):
 
